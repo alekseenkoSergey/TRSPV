@@ -5,6 +5,15 @@ package lr2;
  */
 public class Playground {
 
+	void exhibitPictures(String artist) throws InterruptedException {
+		int delay = 10;
+		System.out.println(artist + " заполняет зал картинами.");
+		Thread.sleep(delay);
+		System.out.println(artist + " проводит выставку...");
+		Thread.sleep(delay);
+		System.out.println(artist + " завершает выставку.");
+	}
+
     void playPatheticSonate(String musician) throws InterruptedException {
         int delay = 10;
         System.out.println(musician + " начинает исполнение...");
@@ -14,12 +23,12 @@ public class Playground {
         Thread.sleep(delay);
         System.out.println("Звучит часть 3: Rondo");
         Thread.sleep(delay);
-        System.out.println(musician + " завершил исполнение");
-        System.out.println("----------");
+		System.out.println(musician + " завершил исполнение.");
+		System.out.println("----------");
     }
 
-    void printZimniyVecher(String author) throws InterruptedException {
-        int delay = 10;
+	synchronized void printZimniyVecher(String author) throws InterruptedException {
+		int delay = 10;
         System.out.println(author + " начитает писать стих...");
         System.out.println();
         System.out.println("Буря мглою небо кроет");
