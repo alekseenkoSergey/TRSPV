@@ -1,6 +1,8 @@
 package lr2;
 
 import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Sergey on 18.03.2017.
@@ -8,19 +10,32 @@ import java.util.ArrayList;
  */
 public class Examples {
     public static void main(String[] args) {
-        Printer printer = new Printer();
+        Playground playground = new Playground();
 
-        // на этом примере можно посмотреть как работает synchronized
-        pushkinCreativity(printer);
+         /* несколько Пушкинов одновременно пишут "Зимний вечер"
+         на этом примере можно посмотреть как работает synchronized
+         */
+//        pushkinCreativity(playground);
+
+        /* несколько Бетховенов одновременно пытаются сыграть Патетическую сонату
+        на этом примере можно посмотреть как работает ReentrantLock
+         */
+        beethovenCreativity(playground);
     }
 
-    private static void pushkinCreativity(Printer printer) {
-        ArrayList<Thread> pushkings = new ArrayList<Thread>();
-
-        for (int i = 0; i < 3; i++) {
-            pushkings.add(new Thread(new Pushkin(printer, "Пушкин" + i)));
+    private static void beethovenCreativity(Playground playground) {
+        Lock lock = new ReentrantLock();
+        ArrayList<Thread> beethovens = new ArrayList<Thread>();
+        for (int i = 0; i < 5; i++) {
+            beethovens.add(new Thread(new Beethoven(playground, lock, "Бетховен" + i, i * 25)));
+            beethovens.get(i).start();
         }
-        for (int i = 0; i < pushkings.size(); i++) {
+    }
+
+    private static void pushkinCreativity(Playground playground) {
+        ArrayList<Thread> pushkings = new ArrayList<Thread>();
+        for (int i = 0; i < 3; i++) {
+            pushkings.add(new Thread(new Pushkin(playground, "Пушкин" + i)));
             pushkings.get(i).start();
         }
     }
