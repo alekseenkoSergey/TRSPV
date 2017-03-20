@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 /**
  * Created by Sergey on 19.03.2017.
@@ -28,17 +27,8 @@ public class App {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ArraySumm.initializeAndFillArray(1000000);
-				ArraySumm.multiThreadCalculator(50000);
-				ArrayList<Thread> threads = ArraySumm.multiThreadCalculator(4);
-				for (int i = 0; i < threads.size(); i++) {
-					try {
-						threads.get(i).join();
-					} catch (InterruptedException e1) {
-						e1.printStackTrace();
-					}
-				}
-				label.setText(Long.toString(ArraySumm.multiThreadSumm));
+				Thread doHardWork = new Thread(new DoHardWork(label));
+				doHardWork.start();
 			}
 		});
 
