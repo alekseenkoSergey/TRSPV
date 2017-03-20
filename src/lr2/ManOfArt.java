@@ -3,7 +3,7 @@ package lr2;
 /**
  * Created by Sergey on 18.03.2017.
  */
-abstract public class ManOfArt {
+abstract class ManOfArt {
     Playground playground;
     String name;
 

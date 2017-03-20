@@ -5,7 +5,7 @@ import java.util.concurrent.locks.Lock;
 /**
  * Created by Sergey on 19.03.2017.
  */
-public class CalculatorTask implements Runnable {
+class CalculatorTask implements Runnable {
 	int[] array;
 	int sector;
 	int parts;

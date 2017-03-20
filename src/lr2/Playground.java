@@ -3,7 +3,7 @@ package lr2;
 /**
  * Created by Sergey on 18.03.2017.
  */
-public class Playground {
+class Playground {
 
 	void exhibitPictures(String artist) throws InterruptedException {
 		int delay = 10;

@@ -5,7 +5,7 @@ import java.util.concurrent.Semaphore;
 /**
  * Created by Sergey on 18.03.2017.
  */
-public class Dali extends ManOfArt implements Runnable {
+class Dali extends ManOfArt implements Runnable {
 	Semaphore semaphore;
 
 	public Dali(Playground playground, Semaphore semaphore, String name) {

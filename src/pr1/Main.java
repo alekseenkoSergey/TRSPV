@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * Created by Sergey on 13.03.2017.
  */
-public class Main {
+class Main {
 
     public static void main(String[] args) {
         ArrayList<Integer> array = new ArrayList<Integer>();

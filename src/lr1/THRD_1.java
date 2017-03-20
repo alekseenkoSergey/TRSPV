@@ -1,6 +1,6 @@
 package lr1;
 
-public class THRD_1 implements Runnable {
+class THRD_1 implements Runnable {
 
     private String name = "THRD_1";
     private Thread thrd_2;

@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Created by Sergey on 19.03.2017.
  */
-public class ArraySumm {
+class ArraySumm {
 	static long oneThreadSumm;
 	static long multiThreadSumm;
 	static int[] array;

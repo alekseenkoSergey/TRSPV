@@ -1,6 +1,6 @@
 package lr1;
 
-public class MyThread extends Thread {
+class MyThread extends Thread {
 
     private String name;
 

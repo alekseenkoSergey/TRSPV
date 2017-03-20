@@ -2,7 +2,7 @@ package lr1;
 
 import java.util.concurrent.Callable;
 
-public class CallableTask implements Callable<String> {
+class CallableTask implements Callable<String> {
 
     private String name;
     private int value;

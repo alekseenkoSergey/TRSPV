@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by Sergey on 20.03.2017.
  */
-public class DoHardWork implements Runnable {
+class DoHardWork implements Runnable {
 	JLabel label = new JLabel();
 
 	public DoHardWork(JLabel label) {

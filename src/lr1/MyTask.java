@@ -1,6 +1,6 @@
 package lr1;
 
-public class MyTask implements Runnable {
+class MyTask implements Runnable {
 
     private String name;
 

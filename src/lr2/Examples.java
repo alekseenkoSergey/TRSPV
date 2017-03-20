@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by Sergey on 18.03.2017.
  * Играемся с разными вариантами синхронизации потоков
  */
-public class Examples {
+class Examples {
 	public static void main(String[] args) {
 		Playground playground = new Playground();
 

@@ -6,7 +6,7 @@ import java.util.concurrent.locks.Lock;
 /**
  * Created by Sergey on 18.03.2017.
  */
-public class Beethoven extends ManOfArt implements Runnable {
+class Beethoven extends ManOfArt implements Runnable {
     Lock lock;
     int patience;
 

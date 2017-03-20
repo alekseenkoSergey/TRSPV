@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by Sergey on 13.03.2017.
  */
-public class MyThread implements Runnable {
+class MyThread implements Runnable {
     ArrayList<Integer> array;
     int k;
 

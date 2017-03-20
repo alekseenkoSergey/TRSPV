@@ -1,6 +1,6 @@
 package lr1;
 
-public class THRD_3 implements Runnable {
+class THRD_3 implements Runnable {
 
     private String name = "THRD_3";
 

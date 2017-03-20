@@ -2,7 +2,7 @@ package lr1;
 
 import java.util.concurrent.Callable;
 
-public class ThreadForCounter implements Callable<Long> {
+class ThreadForCounter implements Callable<Long> {
 
     private Counter counter;
 

@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by Sergey on 19.03.2017.
  */
-public class App {
+class App {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Check this out!");
