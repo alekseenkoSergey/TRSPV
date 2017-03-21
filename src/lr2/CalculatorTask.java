@@ -20,11 +20,13 @@ class CalculatorTask implements Runnable {
 
 	@Override
 	public void run() {
+		long summ = 0;
+		for (int i = sector * (array.length / parts); i < (sector + 1) * (array.length / parts); i++) {
+			summ += array[i];
+		}
 		lock.lock();
+			ArraySumm.multiThreadSumm += summ;
 		try {
-			for (int i = sector * (array.length / parts); i < (sector + 1) * (array.length / parts); i++) {
-				ArraySumm.multiThreadSumm += array[i];
-			}
 		} finally {
 			lock.unlock();
 		}
