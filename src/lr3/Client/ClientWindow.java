@@ -15,12 +15,10 @@ import java.util.Random;
 public class ClientWindow extends JFrame {
     private JTextArea textArea;
     private JButton button;
-    private JTextField textField;
-
     private String title;
     private String login;
     private Socket socket;
-
+    private JTextField textField;
     private ObjectOutputStream outputStream;
 
     public ClientWindow()  {
@@ -39,6 +37,16 @@ public class ClientWindow extends JFrame {
         this.setVisible(true);
 
         connect();
+
+        new ClientListener(this).start();
+    }
+
+    public void printToTextArea(String message) {
+        this.textArea.append(message);
+    }
+
+    public Socket getSocket() {
+        return socket;
     }
 
     // установка соединения с сервером
@@ -111,16 +119,20 @@ public class ClientWindow extends JFrame {
     // отправляет сообщение
     private void sendMessage() {
         Message message = new Message(login, textField.getText());
-
         try {
             outputStream.writeObject(message);
         } catch (IOException e1) {
             textArea.append("Couldn't send the message!\n");
         }
         finally {
-            textArea.append(message.getLogin() + " [" + message.getDate() + "]: " + message.getMessage() + "\n");
+            String messageString = generateMessageString(message);
+            textArea.append(messageString);
             textField.setText("");
         }
+    }
+
+    private String generateMessageString(Message message) {
+        return message.getLogin() + " [" + message.getDate() + "]: " + message.getMessage() + "\n";
     }
 
     // Генерирует случайную строку заданной длины для логина
