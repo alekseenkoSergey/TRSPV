@@ -16,15 +16,16 @@ public class MainServerThread extends Thread {
     @Override
     public void run() {
         try {
-            //Создаем слушатель
+            //Создаем слушателя
             ServerSocket socketListener = new ServerSocket(1234);
 
+            // начинаем ждать клиентов в бесконеыном цикле
             while (true) {
                 Socket client = null;
-                while (client == null) {
-                    client = socketListener.accept();
+                while (client == null) {                    // если возник клиент
+                    client = socketListener.accept();       // то принимаем соединение
                 }
-                new ClientThread(client, textFieldWriter); //Создаем новый поток, которому передаем сокет
+                new ClientThread(client, textFieldWriter);  // Создаем новый поток, которому передаем клиента
             }
         } catch (SocketException e) {
             System.err.println("Socket exception");

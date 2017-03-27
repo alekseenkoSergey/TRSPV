@@ -2,8 +2,6 @@ package lr3.Server;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ServerWindow extends JFrame {
     private String title;
@@ -17,17 +15,11 @@ public class ServerWindow extends JFrame {
         super(title);
 
         this.title = title;
-
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
         this.setLayout(new BorderLayout());
-
         this.setResizable(false);
-
         addControls();
-
         this.pack();
-
         this.setVisible(true);
 
         textArea.append("Starting server...\n");
@@ -62,21 +54,6 @@ public class ServerWindow extends JFrame {
         // down
         JPanel panel2 = new JPanel(true);
         panel2.setLayout(new BorderLayout());
-
-        button = new JButton("Start");
-
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-//                textArea.append("Starting server...\n");
-//
-//                new MainServerThread(textFieldWriter).start();
-
-            }
-        });
-
-        panel2.add(button, BorderLayout.CENTER);
 
         this.add(panel2, BorderLayout.SOUTH);
     }

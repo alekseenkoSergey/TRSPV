@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
 
+// сериализуемый объект для сообщений
 public class Message implements Serializable {
 
     private String login;
     private String message;
     private Date time;
 
-    //Конструктор, которым будет пользоваться клиент
     public Message(String login, String message){
         this.login = login;
         this.message = message;

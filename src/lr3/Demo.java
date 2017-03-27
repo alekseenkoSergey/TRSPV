@@ -3,10 +3,12 @@ package lr3;
 import lr3.Client.Client;
 import lr3.Server.Server;
 
-public class Main {
+
+// демонстрация работы
+// сразу запускает одного сервера и трёх клментов
+public class Demo {
 
     public static void main(String[] args) {
-	// write your code here
 
         new Server().main(args);
 

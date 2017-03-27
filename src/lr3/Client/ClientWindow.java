@@ -16,10 +16,9 @@ public class ClientWindow extends JFrame {
     private JTextArea textArea;
     private JButton button;
     private JTextField textField;
+
     private String title;
-
     private String login;
-
     private Socket socket;
 
     private ObjectOutputStream outputStream;
@@ -27,38 +26,40 @@ public class ClientWindow extends JFrame {
     public ClientWindow()  {
         super();
 
-        login = randomString(new Random().nextInt(10));
-
+        login = randomString(new Random().nextInt(10)+5);
         this.title = "Client : " + login;
 
         this.setTitle(title);
-
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
         this.setLayout(new BorderLayout());
-
         this.setResizable(false);
-
         addControls();
-
         this.pack();
 
         this.setVisible(true);
 
+        connect();
+    }
+
+    // установка соединения с сервером
+    private boolean connect() {
+
         try {
+            // содключаем сокет
             socket = new Socket("localhost", 1234);
 
+            // создает объект для отправки сообщений
             outputStream = new ObjectOutputStream(this.socket.getOutputStream());
 
-            try {
-                outputStream.writeObject(new Message(login, ""));
-            } catch (IOException e1) {
-                textArea.append("Couldn't connect!\n");
-            }
+            // установить соединение, отправить серверу сообщение о подключении
+            outputStream.writeObject(new Message(login, ""));
 
         } catch (IOException e) {
-            e.printStackTrace();
+            textArea.append("Couldn't connect to server!\n");
+            return false;
         }
+
+        return true;
     }
 
     private void addControls() {
@@ -75,12 +76,9 @@ public class ClientWindow extends JFrame {
         textArea.setLineWrap(true);
 
         panel.add(textArea, BorderLayout.WEST);
-
         JScrollPane scroll = new JScrollPane (textArea);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
         panel.add(scroll, BorderLayout.EAST);
-
         this.add(panel, BorderLayout.NORTH);
 
         // down
@@ -89,33 +87,28 @@ public class ClientWindow extends JFrame {
 
         // text field
         textField = new JTextField(46);
-
         textField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 sendMessage();
             }
         });
-
         panel2.add(textField, BorderLayout.WEST);
 
         // button
         button = new JButton("Send");
-
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 sendMessage();
-
             }
         });
 
         panel2.add(button, BorderLayout.EAST);
-
         this.add(panel2, BorderLayout.SOUTH);
     }
 
+    // отправляет сообщение
     private void sendMessage() {
         Message message = new Message(login, textField.getText());
 
@@ -130,7 +123,7 @@ public class ClientWindow extends JFrame {
         }
     }
 
-
+    // Генерирует случайную строку заданной длины для логина
     private String randomString( int len ){
 
         final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

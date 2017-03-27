@@ -17,24 +17,26 @@ public class ClientThread extends Thread {
     public ClientThread(Socket socket, TextWriter textFieldWriter) {
         this.socket = socket;
         this.textFieldWriter = textFieldWriter;
+
         this.start();
     }
 
     public void run() {
         System.out.println("new thread started for client!");
         try {
+            // создаем объект для приёма (десериализации) объектов
             final ObjectInputStream inputStream   = new ObjectInputStream(this.socket.getInputStream());
 
+            // читаем первое сообщение (что клиент присоединился)
             this.c = (Message) inputStream.readObject();
             this.login = this.c.getLogin();
-
             textFieldWriter.appendText(login + " connected");
 
+
+            // дальше начинаем ждать последующих сообщений
             while (true) {
                 this.c = (Message) inputStream.readObject();
-
                 textFieldWriter.appendText(c.getLogin() + " [" + c.getDate() + "]: " + c.getMessage());
-
             }
 
         } catch (SocketException e) {
@@ -45,5 +47,4 @@ public class ClientThread extends Thread {
             e.printStackTrace();
         }
     }
-
 }
