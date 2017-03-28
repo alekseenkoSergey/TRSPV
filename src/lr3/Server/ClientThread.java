@@ -62,18 +62,10 @@ public class ClientThread extends Thread {
 	}
 
 	private void broadcastMessageToOtherClients(String messageString) {
-		for (int i = 0; i < mainServerThread.getClients().size(); i++) {
-			if (mainServerThread.getClients().get(i) != this) {
-				mainServerThread.getClients().get(i).sendMessageToClient(messageString);
-			}
-		}
+		new BroadcastService(mainServerThread.getClients(), this, messageString).start();
 	}
 
-	private void sendMessageToClient(String messageString) {
-		try {
-			this.outputStream.writeObject(messageString);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public ObjectOutputStream getOutputStream() {
+		return outputStream;
 	}
 }
