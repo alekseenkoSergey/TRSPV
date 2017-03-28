@@ -23,7 +23,7 @@ public class ClientThread extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.start();
+//		this.start();
 	}
 
 	public void run() {

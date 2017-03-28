@@ -5,6 +5,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainServerThread extends Thread {
 
@@ -22,6 +24,8 @@ public class MainServerThread extends Thread {
 			//Создаем слушателя
 			ServerSocket socketListener = new ServerSocket(1234);
 
+			ExecutorService executor = Executors.newFixedThreadPool(5);
+
 			// начинаем ждать клиентов в бесконеыном цикле
 			while (true) {
 				Socket client = null;
@@ -29,7 +33,9 @@ public class MainServerThread extends Thread {
 					client = socketListener.accept();       // то принимаем соединени
 				}
 				// Создаем новый поток, которому передаем клиента
-				clients.add(new ClientThread(client, this));
+				ClientThread clientThread = new ClientThread(client, this);
+				executor.execute(clientThread);
+				clients.add(clientThread);
 			}
 		} catch (SocketException e) {
 			System.err.println("Socket exception");
