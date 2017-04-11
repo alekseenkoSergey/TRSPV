@@ -34,6 +34,7 @@ public class MainServerThread extends Thread {
 				}
 				// Создаем новый поток, которому передаем клиента
 				ClientThread clientThread = new ClientThread(client, this);
+				// TODO добавить себя в коллекцию
 				executor.execute(clientThread);
 				clients.add(clientThread);
 			}

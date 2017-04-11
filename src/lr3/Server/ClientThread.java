@@ -15,15 +15,14 @@ public class ClientThread extends Thread {
 	private ObjectOutputStream outputStream;
 	private MainServerThread mainServerThread;
 
-	public ClientThread(Socket socket, MainServerThread mainServarThread) {
+	public ClientThread(Socket socket, MainServerThread mainServerThread) {
 		this.socket = socket;
-		this.mainServerThread = mainServarThread;
+		this.mainServerThread = mainServerThread;
 		try {
 			this.outputStream = new ObjectOutputStream(this.socket.getOutputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		this.start();
 	}
 
 	public void run() {
