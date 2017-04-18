@@ -6,18 +6,20 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.List;
 
-class ClientThread extends Thread {
+/**
+ * Created by Sergey on 18.04.2017.
+ */
+class RemoteClientThread implements Runnable {
+
+	private MainServerThread mainServerThread;
 	private Socket socket;
 	private Message message;
 	private String login;
-
 	private ObjectOutputStream outputStream;
 
-	private MainServerThread mainServerThread;
-	public ClientThread(Socket socket, MainServerThread mainServerThread) {
+	public RemoteClientThread(Socket socket, MainServerThread mainServerThread) {
 		this.socket = socket;
 		this.mainServerThread = mainServerThread;
 		try {
@@ -27,36 +29,35 @@ class ClientThread extends Thread {
 		}
 	}
 
+	@Override
 	public void run() {
 		try {
-			//добавляет себя в список клиентов
-			mainServerThread.addClientToList(this);
-
-			// создаем объект для приёма (десериализации) объектов
 			final ObjectInputStream inputStream = new ObjectInputStream(this.socket.getInputStream());
-
 			// читаем первое сообщение (что клиент присоединился)
 			this.message = (Message) inputStream.readObject();
 			this.login = this.message.getLogin();
 			mainServerThread.printToTextFieldWriter(login + " connected");
 
 			// выводим все более рание сообщения
-			List<String> history = mainServerThread.getHistory();
-			for (int i = 0; i < history.size(); i++) {
-				this.outputStream.writeObject(history.get(i));
-			}
+			sendHistory();
 
 			// дальше начинаем ждать последующих сообщений
 			while (true) {
 				this.message = (Message) inputStream.readObject();
-				String messageString = generateMessageString();
-				mainServerThread.printToTextFieldWriter(messageString);
-				mainServerThread.addMessageToHistory(messageString);
-				broadcastMessageToOtherClients(messageString + "\n");
+				switch (message.getMessage()) {
+					case "GET_HISTORY":
+						sendHistory();
+						break;
+					case "GET_NUM_USERS":
+						sendNumUsers();
+						break;
+					case "GET_CLIENTS_LOGINS":
+						sendClientsLogins();
+						break;
+					default:
+						sendErrorUnknownCommand(message.getMessage());
+				}
 			}
-
-		} catch (SocketException e) {
-			mainServerThread.printToTextFieldWriter(login + " disconnected");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -64,19 +65,25 @@ class ClientThread extends Thread {
 		}
 	}
 
-	private String generateMessageString() {
-		return message.getLogin() + " [" + message.getDate() + "]: " + message.getMessage();
+	private void sendErrorUnknownCommand(String command) throws IOException {
+		this.outputStream.writeObject("Unknown command " + command + "\n");
 	}
 
-	private void broadcastMessageToOtherClients(String messageString) {
-		new BroadcastService(mainServerThread.getClients(), this, messageString).start();
+	private void sendClientsLogins() throws IOException {
+		List<ClientThread> clients = mainServerThread.getClients();
+		for (int i = 0; i < clients.size(); i++) {
+			this.outputStream.writeObject(clients.get(i).getLogin() + "\n");
+		}
 	}
 
-	public ObjectOutputStream getOutputStream() {
-		return outputStream;
+	private void sendNumUsers() throws IOException {
+		this.outputStream.writeObject("Number of users: " + mainServerThread.getClients().size() + "\n");
 	}
 
-	public String getLogin() {
-		return login;
+	private void sendHistory() throws IOException {
+		List<String> history = mainServerThread.getHistory();
+		for (int i = 0; i < history.size(); i++) {
+			this.outputStream.writeObject(history.get(i));
+		}
 	}
 }

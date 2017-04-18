@@ -12,17 +12,17 @@ import java.net.Socket;
 import java.security.SecureRandom;
 import java.util.Random;
 
-public class ClientWindow extends JFrame {
-    private JTextArea textArea;
-    private JButton button;
+abstract class AbstractClientWindow extends JFrame {
+	protected JTextArea textArea;
+	protected String login;
+	protected ObjectOutputStream outputStream;
+	protected Socket socket;
+	private JButton button;
     private String title;
-    private String login;
-    private Socket socket;
     private JTextField textField;
-    private ObjectOutputStream outputStream;
 
-    public ClientWindow()  {
-        super();
+	public AbstractClientWindow() {
+		super();
 
         login = randomString(new Random().nextInt(10)+5);
         this.title = "Client : " + login;
@@ -35,40 +35,15 @@ public class ClientWindow extends JFrame {
         this.pack();
 
         this.setVisible(true);
-
-        connect();
-
-        new ClientListener(this).start();
     }
 
     public void printToTextArea(String message) {
         this.textArea.append(message);
     }
 
-    public Socket getSocket() {
-        return socket;
-    }
-
-    // установка соединения с сервером
-    private boolean connect() {
-
-        try {
-            // содключаем сокет
-            socket = new Socket("localhost", 1234);
-
-            // создает объект для отправки сообщений
-            outputStream = new ObjectOutputStream(this.socket.getOutputStream());
-
-            // установить соединение, отправить серверу сообщение о подключении
-            outputStream.writeObject(new Message(login, ""));
-
-        } catch (IOException e) {
-            textArea.append("Couldn't connect to server!\n");
-            return false;
-        }
-
-        return true;
-    }
+	public Socket getSocket() {
+		return socket;
+	}
 
     private void addControls() {
 

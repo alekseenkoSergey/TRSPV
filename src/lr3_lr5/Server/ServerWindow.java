@@ -3,8 +3,8 @@ package lr3_lr5.Server;
 import javax.swing.*;
 import java.awt.*;
 
-public class ServerWindow extends JFrame {
-    private String title;
+class ServerWindow extends JFrame {
+	private String title;
 
     private JTextArea textArea;
     private JButton button;

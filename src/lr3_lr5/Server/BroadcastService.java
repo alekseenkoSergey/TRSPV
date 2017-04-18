@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by Sergey on 28.03.2017.
  */
-public class BroadcastService extends Thread {
+class BroadcastService extends Thread {
 	private ArrayList<ClientThread> clients;
 	private String message;
 	private ClientThread sourse;

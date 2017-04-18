@@ -2,7 +2,7 @@ package lr3_lr5.Server;
 
 import javax.swing.*;
 
-public class TextWriter {
+class TextWriter {
 
     private JTextArea textArea;
 
