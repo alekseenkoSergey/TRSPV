@@ -1,4 +1,4 @@
-package lr3.Server;
+package lr3_lr5.Server;
 
 import javax.swing.*;
 

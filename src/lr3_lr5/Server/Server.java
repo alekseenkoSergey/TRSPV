@@ -1,4 +1,4 @@
-package lr3.Server;
+package lr3_lr5.Server;
 
 // Запускает сервера
 public class Server {

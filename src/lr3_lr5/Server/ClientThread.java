@@ -1,16 +1,17 @@
-package lr3.Server;
+package lr3_lr5.Server;
 
-import lr3.Message;
+import lr3_lr5.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.List;
 
 public class ClientThread extends Thread {
 	private Socket socket;
-	private Message c;
+	private Message message;
 	private String login;
 	private ObjectOutputStream outputStream;
 	private MainServerThread mainServerThread;
@@ -27,23 +28,29 @@ public class ClientThread extends Thread {
 
 	public void run() {
 		try {
+			//добавляет себя в список клиентов
+			mainServerThread.addClientToList(this);
+
 			// создаем объект для приёма (десериализации) объектов
 			final ObjectInputStream inputStream = new ObjectInputStream(this.socket.getInputStream());
 
 			// читаем первое сообщение (что клиент присоединился)
-			this.c = (Message) inputStream.readObject();
-			this.login = this.c.getLogin();
+			this.message = (Message) inputStream.readObject();
+			this.login = this.message.getLogin();
 			mainServerThread.printToTextFieldWriter(login + " connected");
 
 			// выводим все более рание сообщения
-			this.outputStream.writeObject(mainServerThread.getHistory());
+			List<String> history = mainServerThread.getHistory();
+			for (int i = 0; i < history.size(); i++) {
+				this.outputStream.writeObject(history.get(i));
+			}
 
 			// дальше начинаем ждать последующих сообщений
 			while (true) {
-				this.c = (Message) inputStream.readObject();
+				this.message = (Message) inputStream.readObject();
 				String messageString = generateMessageString();
 				mainServerThread.printToTextFieldWriter(messageString);
-				mainServerThread.addMessageToHistory(messageString + "\n");
+				mainServerThread.addMessageToHistory(messageString);
 				broadcastMessageToOtherClients(messageString + "\n");
 			}
 
@@ -57,7 +64,7 @@ public class ClientThread extends Thread {
 	}
 
 	private String generateMessageString() {
-		return c.getLogin() + " [" + c.getDate() + "]: " + c.getMessage();
+		return message.getLogin() + " [" + message.getDate() + "]: " + message.getMessage();
 	}
 
 	private void broadcastMessageToOtherClients(String messageString) {

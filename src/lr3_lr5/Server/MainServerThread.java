@@ -1,10 +1,11 @@
-package lr3.Server;
+package lr3_lr5.Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -12,7 +13,7 @@ public class MainServerThread extends Thread {
 
 	private TextWriter textFieldWriter;
 	private ArrayList<ClientThread> clients = new ArrayList<ClientThread>();
-	private String history = "";
+	private List<String> history = new ArrayList<String>();
 
 	public MainServerThread(TextWriter textFieldWriter) {
 		this.textFieldWriter = textFieldWriter;
@@ -32,11 +33,8 @@ public class MainServerThread extends Thread {
 				while (client == null) {                    // если возник клиент
 					client = socketListener.accept();       // то принимаем соединени
 				}
-				// Создаем новый поток, которому передаем клиента
-				ClientThread clientThread = new ClientThread(client, this);
-				// TODO добавить себя в коллекцию
-				executor.execute(clientThread);
-				clients.add(clientThread);
+				// стартуем
+				executor.execute(new ClientThread(client, this));
 			}
 		} catch (SocketException e) {
 			System.err.println("Socket exception");
@@ -56,10 +54,14 @@ public class MainServerThread extends Thread {
 	}
 
 	synchronized public void addMessageToHistory(String message) {
-		this.history += message;
+		this.history.add(message + "/n");
 	}
 
-	public String getHistory() {
+	public List<String> getHistory() {
 		return history;
+	}
+
+	public void addClientToList(ClientThread clientThread) {
+		clients.add(clientThread);
 	}
 }

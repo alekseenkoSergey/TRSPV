@@ -1,7 +1,7 @@
-package lr3;
+package lr3_lr5;
 
-import lr3.Client.Client;
-import lr3.Server.Server;
+import lr3_lr5.Client.Client;
+import lr3_lr5.Server.Server;
 
 
 // демонстрация работы

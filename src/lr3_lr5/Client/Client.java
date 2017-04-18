@@ -1,4 +1,4 @@
-package lr3.Client;
+package lr3_lr5.Client;
 
 // Запускает клиента
 public class Client {

@@ -1,4 +1,4 @@
-package lr3;
+package lr3_lr5;
 
 import java.io.Serializable;
 import java.sql.Time;

@@ -1,6 +1,6 @@
-package lr3.Client;
+package lr3_lr5.Client;
 
-import lr3.Message;
+import lr3_lr5.Message;
 
 import javax.swing.*;
 import java.awt.*;
